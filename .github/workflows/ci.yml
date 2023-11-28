@@ -1,0 +1,253 @@
+# This file is maintained by velocitas CLI, do not modify manually. Change settings in .velocitas.json
+# Copyright (c) 2022 Robert Bosch GmbH and Microsoft Corporation
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: CI workflow
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+  push:
+    # Run only on branches/commits and not tags
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-22.04
+    container: ghcr.io/eclipse-velocitas/devcontainer-base-images/python:v0.2
+    name: Run unit tests and linters
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - uses: de-vri-es/setup-git-credentials@v2
+        with:
+          credentials: https://user:${{ secrets.GITHUB_TOKEN }}@github.com/
+
+      - name: Init velocitas project
+        run: |
+          velocitas init
+
+      - name: Install required packages
+        run: |
+          pip install -r requirements.txt
+          pip install -r app/requirements-links.txt
+          pip install -r app/requirements.txt
+          pip install -r app/tests/requirements.txt
+
+      - name: Fix dubious ownership
+        run: |
+          git config --global --add safe.directory $( pwd )
+
+      - name: Run Linters
+        uses: ./.github/actions/pre-commit-action
+
+      - name: Clone Release Documentation Action repository
+        uses: actions/checkout@v3
+        with:
+          repository: eclipse-velocitas/release-documentation-action
+          path: "./.github/release-documentation/actions"
+
+      - name: unit test
+        shell: bash
+        run: |
+          pytest --rootdir=./app/tests/unit \
+          --override-ini junit_family=xunit1 \
+          --junit-xml=./results/UnitTest/junit.xml \
+          --cov ./app/src \
+          --cov-report=xml:results/CodeCoverage/cobertura-coverage.xml \
+          --cov-branch ./app/tests/unit
+
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v3
+        if: always()
+        with:
+          report_paths: ./results/UnitTest/junit.xml
+          summary: true
+          update_check: true
+          annotate_only: true
+
+      - uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: results/CodeCoverage/cobertura-coverage.xml
+          badge: true
+          format: markdown
+          hide_complexity: true
+          indicators: true
+          output: both
+
+      - run: |
+          cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Package unit test files
+        uses: ./.github/release-documentation/actions/package
+        with:
+          name: "UnitTest"
+          type: "UnitTest"
+          schema: "JUnit"
+          sourcePath: ./results/UnitTest/junit.xml
+          packagePath: ./results/Documentation/renderer
+
+      - name: Package code coverage files
+        uses: ./.github/release-documentation/actions/package
+        with:
+          name: "CodeCoverage"
+          type: "CodeCoverage"
+          schema: "Cobertura"
+          sourcePath: results/CodeCoverage
+          packagePath: results/Documentation/renderer
+
+      - name: Upload test results as artifacts
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: "test-results"
+          path: |
+            results/Documentation/renderer/*
+
+  get-app-name:
+    runs-on: ubuntu-22.04
+    name: Get App-Name
+    outputs:
+      app_name: ${{ steps.export-app-name.outputs.app_name }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get app-name
+        id: export-app-name
+        run: |
+          NAME=$(cat ./app/AppManifest.json | jq -r '.name')
+          echo "app_name=$NAME" >> $GITHUB_OUTPUT
+
+  build-image-amd64:
+    uses: ./.github/workflows/build-docker-image.yml
+    needs: [get-app-name]
+    with:
+      platform: amd64
+      app_name: ${{ needs.get-app-name.outputs.app_name }}
+
+  run-integration-tests:
+    name: Run Integration Tests (${{ needs.get-app-name.outputs.app_name }})
+    runs-on: ubuntu-22.04
+    needs: [get-app-name, build-image-amd64]
+    env:
+      APP_NAME: ${{ needs.get-app-name.outputs.app_name }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - uses: de-vri-es/setup-git-credentials@v2
+        with:
+          credentials: https://user:${{ secrets.GITHUB_TOKEN }}@github.com/
+
+      - name: Init velocitas project
+        run: |
+          sudo curl -L https://github.com/eclipse-velocitas/cli/releases/latest/download/velocitas-linux-x64 -o /usr/bin/velocitas
+          sudo chmod +x /usr/bin/velocitas
+          velocitas init
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Install required packages
+        run: |
+          pip install -r ./app/requirements.txt
+          pip install -r ./app/requirements-links.txt
+          pip install -r ./app/tests/requirements.txt
+          brew install k3d kubernetes-cli helm
+          sudo wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash -s 1.10.0
+
+      - name: Configure K3D cluster and install runtime containers in K3D cluster
+        run: velocitas exec runtime-k3d up
+
+      - id: github-repository-name-case-adjusted
+        name: Prepare repository name in lower case for docker upload. This supports repository names in mixed case
+        uses: ASzc/change-string-case-action@v5
+        with:
+          string: ${{ github.repository }}
+
+      - name: Download stored image from artifacts
+        uses: actions/download-artifact@v3
+        env:
+          VAPP_IMAGE: ${{ env.APP_NAME }}-amd64
+        with:
+          name: ${{ env.VAPP_IMAGE }}
+          path: ./.github/scripts/
+
+      - name: Deploy images
+        working-directory: ./.github/scripts
+        run: ./deploy_image_from_artifact.sh
+
+      - name: Run Python integration tests
+        shell: bash
+        env:
+          VDB_PORT: 30555
+          MQTT_PORT: 31883
+        run: |
+          pip install -r app/tests/requirements.txt
+          pytest ./app/tests/integration --override-ini junit_family=xunit1 --junit-xml=./results/IntTest/junit.xml
+
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v3
+        if: always()
+        with:
+          report_paths: ./results/IntTest/junit.xml
+          summary: true
+          update_check: true
+          annotate_only: true
+
+      - name: Clone release documentation action repository
+        uses: actions/checkout@v3
+        with:
+          repository: eclipse-velocitas/release-documentation-action
+          path: "./.github/actions"
+
+      - name: Package integration test result files
+        uses: ./.github/actions/package
+        with:
+          name: "IntegrationTest"
+          type: "UnitTest"
+          schema: "JUnit"
+          sourcePath: ./results/IntTest/junit.xml
+          packagePath: ./results/Documentation/renderer
+
+      - name: Upload integration test results as artifacts
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: "test-results"
+          path: |
+            results/Documentation/renderer/*
