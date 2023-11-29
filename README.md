@@ -1,6 +1,4 @@
 # Score your driving
-
----
 # **Hackathon Challenges**
 
 ## Detailed Description of the Hackathon Challenges
