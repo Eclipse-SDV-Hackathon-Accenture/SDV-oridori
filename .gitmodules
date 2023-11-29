@@ -6,3 +6,7 @@
 	path = velocitas_app
 	url = https://github.com/jehyngn/Vapp.git
 	branch = main
+[submodule "Velocitas-App"]
+	path = Velocitas-App
+	url = https://github.com/jehyngn/Velocitas-App.git
+	branch = main
