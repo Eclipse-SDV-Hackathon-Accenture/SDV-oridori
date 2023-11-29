@@ -1,0 +1,28 @@
+{
+    "packages": [
+        {
+            "name": "devenv-runtimes",
+            "version": "v2.2.3"
+        },
+        {
+            "name": "devenv-github-workflows",
+            "version": "v4.1.2"
+        },
+        {
+            "name": "devenv-github-templates",
+            "version": "v1.0.3"
+        },
+        {
+            "name": "devenv-devcontainer-setup",
+            "version": "v1.4.4"
+        }
+    ],
+    "variables": {
+        "language": "python",
+        "repoType": "app",
+        "appManifestPath": "app/AppManifest.json",
+        "githubRepoId": "eclipse-velocitas/vehicle-app-python-template",
+        "generatedModelPath": "./gen/vehicle_model"
+    },
+    "cliVersion": "v0.6.3"
+}
