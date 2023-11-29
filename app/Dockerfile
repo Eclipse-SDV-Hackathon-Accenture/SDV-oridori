@@ -15,7 +15,7 @@
 # syntax=docker/dockerfile:1.2
 
 # Build stage, to create the executable
-FROM --platform=$TARGETPLATFORM ghcr.io/eclipse-velocitas/devcontainer-base-images/python:v0.2 as builder
+FROM --platform=$TARGETPLATFORM ghcr.io/eclipse-velocitas/devcontainer-base-images/base:v0.2 as builder
 ARG TARGETARCH
 
 RUN apt-get update && apt-get install -y python3-dev
@@ -53,24 +53,6 @@ WORKDIR /workspace
 
 RUN velocitas init
 
-WORKDIR /workspace/app
+WORKDIR /workspace/app/src
 
-RUN pyinstaller --clean -F -s src/main.py
-
-WORKDIR /workspace/app/dist
-
-RUN staticx main run-exe
-
-# Runner stage, to copy the executable
-FROM scratch
-
-COPY --from=builder ./workspace/app/dist/run-exe /dist/
-
-WORKDIR /tmp
-WORKDIR /dist
-
-ENV PATH="/dist:$PATH"
-
-LABEL org.opencontainers.image.source="https://github.com/eclipse-velocitas/vehicle-app-python-template"
-
-CMD ["./run-exe"]
+CMD ["python3","main.py"]
