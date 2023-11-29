@@ -20,6 +20,7 @@ import logging
 import signal
 
 import torch
+import torch.nn as nn
 from vehicle import Vehicle, vehicle  # type: ignore
 from velocitas_sdk.util.log import (  # type: ignore
     get_opentelemetry_log_factory,
@@ -37,6 +38,26 @@ logger = logging.getLogger(__name__)
 GET_SPEED_REQUEST_TOPIC = "sampleapp/getSpeed"
 GET_SPEED_RESPONSE_TOPIC = "sampleapp/getSpeed/response"
 DATABROKER_SUBSCRIPTION_TOPIC = "sampleapp/currentSpeed"
+
+
+class LSTMModel(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size, num_layers, dropout_rate):
+        super(LSTMModel, self).__init__()
+        self.hidden_size = hidden_size
+        self.lstm = nn.LSTM(
+            input_size,
+            hidden_size,
+            num_layers=num_layers,
+            batch_first=True,
+            dropout=dropout_rate,
+        )
+        self.linear = nn.Linear(hidden_size, output_size)
+
+    def forward(self, x):
+        lstm_out, _ = self.lstm(x)
+        last_sequence = lstm_out[:, -1, :]
+        predictions = self.linear(last_sequence)
+        return predictions
 
 
 class SampleApp(VehicleApp):
