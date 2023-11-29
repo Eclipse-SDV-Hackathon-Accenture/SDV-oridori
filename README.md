@@ -1,6 +1,6 @@
 # Score your driving
 
-**(Seat Adjust Challenge & Carla)**
+---
 
 # Team Introduction
 
@@ -10,7 +10,7 @@ Team members: Jaehyeong Park, Daekyung La, Seungwoo Lee, Jaeha Lee
 
 # **Hackathon Challenges**
 
-### Detailed Description of the Hackathon Challenges
+## Detailed Description of the Hackathon Challenges
 
 - **Seat Adjust Challenge**
     
@@ -20,6 +20,8 @@ Team members: Jaehyeong Park, Daekyung La, Seungwoo Lee, Jaeha Lee
     
 - **Carla**
 
+     Used the carla simulator to obtain CAN data about driving. We used the carla simulator's two methods of autonomous driving and manual driving to distinguish between data showing proper driving and data showing incorrect driving.
+
 # Project Introduction
 Show off your driving skills! Our app evaluates your driving ability. 
 
@@ -27,7 +29,7 @@ Show off your driving skills! Our app evaluates your driving ability.
  This approach promotes safe driving habits among drivers and contributes to reducing risky driving behavior, creating a safe driving culture.
 - It is built on the open source framework of Eclipse SDV and integrates a vehicle abstraction layer to make it compatible with a wide range of vehicles. Additionally, over-the-air (OTA) functionality ensures smooth software updates and data transfers.
 
-# **Technical Background**
+# Technical Background
 
 - Overview of Develop your Eclipse Velocitas vehicle application ****Blueprints
 ![seatAdjusterArchitecture.png](./images/seatAdjusterArchitecture.png)
@@ -36,13 +38,13 @@ Show off your driving skills! Our app evaluates your driving ability.
 
 -video
 
-# **Structure**
+# Structure
 
 - When driving in Carla, necessary information is sent in a CSV format locally and through a virtual CAN to the CAN Feeder in leda, conforming to the VSS standard.
 - The CSV Provider and CAN Feeder send data received from Carla to the data broker, renaming and reformatting it according to the VSS standard.
 - Applications subscribe to the data broker, continuously receiving necessary data, which is then inputted into a trained LSTM model to evaluate the driving score.
 
-### 1. Local Environment
+## 1. Local Environment
 ![local_structure.png](./images/local_structure.png)
 
 - In the CARLA simulator, CAN data is collected, such as various data speeds, throttle, steering, braking, and lane keeping of the vehicle being driven. This data is sent to the kuksa.val data broker via CAN Feeder, which then forwards this CAN data to the Velocitas application via the gRPC protocol.
@@ -50,7 +52,7 @@ Show off your driving skills! Our app evaluates your driving ability.
      The Velocitas application takes this data and uses a deep learning model to calculate a driving score, which is then provided to the driver in real time. The system provides drivers with immediate feedback on their driving habits, giving them the opportunity to improve their driving behavior.
     
 
-### 2. Leda Environment
+## 2. Leda Environment
 ![leda_structure.png](./images/leda_structure.png)
 
 - After driving in the CARLA simulator, various data of the vehicle such as speed, throttle, steering, brake, and lane keeping status are saved as a csv file during the driving process. This data is transferred from the Leda environment to the kuksa.val data broker via the CSV provider, and this data is then delivered to the Velocitas application via the gRPC protocol.
