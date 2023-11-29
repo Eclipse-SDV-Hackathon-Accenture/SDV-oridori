@@ -31,7 +31,7 @@ Show off your driving skills! Our app evaluates your driving ability.
 
 # Technical Background
 
-- Overview of Develop your Eclipse Velocitas vehicle application ****Blueprints
+### **Overview of Develop your Eclipse Velocitas vehicle application Blueprints**
 ![seatAdjusterArchitecture.png](./images/seatAdjusterArchitecture.png)
 
 # Demo
