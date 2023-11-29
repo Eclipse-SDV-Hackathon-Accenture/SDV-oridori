@@ -43,5 +43,5 @@ jobs:
     uses: ./.github/workflows/build-docker-image.yml
     needs: [get-app-name]
     with:
-      platform: multiarch
+      platform: amd64
       app_name: ${{ needs.get-app-name.outputs.app_name }}
