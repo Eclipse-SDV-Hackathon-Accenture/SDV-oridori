@@ -1,13 +1,6 @@
 # Score your driving
 
 ---
-
-# Team Introduction
-
-Team Leader: Donghwan Seo
-
-Team members: Jaehyeong Park, Daekyung La, Seungwoo Lee, Jaeha Lee 
-
 # **Hackathon Challenges**
 
 ## Detailed Description of the Hackathon Challenges
@@ -58,4 +51,43 @@ Show off your driving skills! Our app evaluates your driving ability.
 - After driving in the CARLA simulator, various data of the vehicle such as speed, throttle, steering, brake, and lane keeping status are saved as a csv file during the driving process. This data is transferred from the Leda environment to the kuksa.val data broker via the CSV provider, and this data is then delivered to the Velocitas application via the gRPC protocol.
     
      The Velocitas application takes this data and uses a deep learning model to calculate a driving score for that drive, which is then provided to the driver after completing the drive. The system provides drivers with an evaluation of their current driving, giving them the opportunity to improve their next driving.
-     
+
+
+# Expected Outcomes of the Our Project
+
+## 1. Insurance
+
+By developing customized insurance products based on individual driving habits, we can increase customer satisfaction and provide insurance companies with a competitive advantage.
+
+1. **Establishment of clear standards through the introduction of deep learning-based models**: By utilizing deep learning-based models, a driver’s driving score can be evaluated more accurately. This system provides an opportunity to better assess the riskiness of individual drivers and make insurance premiums fairer.
+2. **Provides a competitive advantage**: Insurance companies that adopt this technology will be able to promote products that set fair premiums for policyholders. As a result, it provides a competitive advantage in the insurance market.
+3. **Cost savings for insurance companies**: It can have the effect of reducing accident rates by encouraging safe driving, which can lead to cost savings for insurance companies.
+
+## 2. Taxi Platform (Uber, Freenow, Bolt, etc)
+
+It can improve the service quality of taxi platforms and have a positive impact on both customers and drivers.
+
+1. **Improved customer trust**: When driver scores are transparently disclosed, customers have confidence in the safety and reliability of the driver, increasing trust in the service.
+2. **Improve driver behavior**: Drivers will be motivated to maintain good scores, encouraging safe driving and reducing accident rates.
+3. **Reduced insurance premiums**: Safe driving behavior can lead to reduced accident rates, which can lead to cost benefits such as reduced insurance premiums.
+4. **Enhanced competitiveness**: A system that guarantees driver quality can increase customer preference for taxi platforms and provide differentiated competitiveness compared to competitors.
+5. **Increased brand value of the platform**: Providing safe and reliable services can contribute to increasing the brand value of the taxi platform.
+
+## 3. Detection of suspected abnormal drivers (drowsy or drunk)
+
+ It can be of great help to governments and police to effectively manage road safety and prevent accidents. Additionally, it can be an important means of improving public safety and reducing social costs.
+
+1. **Enhanced Safety**: Significantly improves road safety by effectively detecting and preventing drunk or drowsy driving.
+2. **Increased Law Enforcement Efficiency**: Police and other agencies can more easily detect and act on risky driver behavior, increasing the effectiveness of law enforcement.
+3. **Reduced accident rates**: By contributing to reducing accidents caused by drunk and drowsy driving, it can reduce social costs and reduce the number of insurance claims.
+4. **Increasing trust in public safety**: As governments and police utilize these systems to enhance public safety, citizen trust and satisfaction can increase.
+5. **Supports data-driven policy making**: Data collected from these systems can better inform policy decisions related to traffic safety and contribute to the creation of effective measures.
+
+
+
+
+# Team Introduction
+
+Team Leader: Donghwan Seo
+
+Team members: Jaehyeong Park, Daekyung La, Seungwoo Lee, Jaeha Lee 
