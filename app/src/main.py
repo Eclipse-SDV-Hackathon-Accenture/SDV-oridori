@@ -19,6 +19,7 @@ import json
 import logging
 import signal
 
+import torch
 from vehicle import Vehicle, vehicle  # type: ignore
 from velocitas_sdk.util.log import (  # type: ignore
     get_opentelemetry_log_factory,
@@ -119,6 +120,9 @@ async def main():
     # Constructing SampleApp and running it.
     vehicle_app = SampleApp(vehicle)
     await vehicle_app.run()
+
+    # for using torch(temp)
+    torch.cuda.is_available()
 
 
 LOOP = asyncio.get_event_loop()
