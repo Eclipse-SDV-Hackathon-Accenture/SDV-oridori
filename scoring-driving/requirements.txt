@@ -48,3 +48,4 @@ typing-extensions==4.8.0
     # via dapr
 yarl==1.9.2
     # via aiohttp
+pytorch==2.1.1
