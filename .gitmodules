@@ -1,0 +1,8 @@
+[submodule "Vapp"]
+	path = Vapp
+	url = https://github.com/jehyngn/Vapp.git
+	branch = main
+[submodule "velocitas_app"]
+	path = velocitas_app
+	url = https://github.com/jehyngn/Vapp.git
+	branch = main
