@@ -21,9 +21,6 @@ Team members: Jaehyeong Park, Daekyung La, Seungwoo Lee, Jaeha Lee
 - **Carla**
 
 # Project Introduction
-
-### ~~(Objectives and Expected Outcomes of the Our Project)~~
-
 Show off your driving skills! Our app evaluates your driving ability. 
 
 - The project scores drivers by taking into account different aspects of driving a vehicle. This includes speed regulation, steering control, braking ability, lane keeping, etc. Each driver's behavior is analyzed by a deep learning algorithm, providing highly objective and accurate scores.
