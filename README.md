@@ -13,6 +13,7 @@
 
      Used the carla simulator to obtain CAN data about driving. We used the carla simulator's two methods of autonomous driving and manual driving to distinguish between data showing proper driving and data showing incorrect driving.
 
+
 # Project Introduction
 Show off your driving skills! Our app evaluates your driving ability. 
 
@@ -20,8 +21,8 @@ Show off your driving skills! Our app evaluates your driving ability.
  This approach promotes safe driving habits among drivers and contributes to reducing risky driving behavior, creating a safe driving culture.
 - It is built on the open source framework of Eclipse SDV and integrates a vehicle abstraction layer to make it compatible with a wide range of vehicles. Additionally, over-the-air (OTA) functionality ensures smooth software updates and data transfers.
 
-# Technical Background
 
+# Technical Background
 ### **Overview of Develop your Eclipse Velocitas vehicle application Blueprints**
 ![seatAdjusterArchitecture.png](./images/seatAdjusterArchitecture.png)
 
@@ -29,9 +30,9 @@ Show off your driving skills! Our app evaluates your driving ability.
 
 -video
 
-# Structure
 
-- We generated data through CARLA and created a driving evaluation model using a deep learning model. Please check README.md in ./dl-with-carla for details.
+# Structure
+- We generated data through CARLA and created a driving evaluation model using a deep learning model. Please check README.md in [](./dl-with-carla) for details.
 - When driving in Carla, necessary information is sent in a CSV format locally and through a virtual CAN to the CAN Feeder in leda, conforming to the VSS standard.
 - The CSV Provider and CAN Feeder send data received from Carla to the data broker, renaming and reformatting it according to the VSS standard.
 - Applications subscribe to the data broker, continuously receiving necessary data, which is then inputted into a trained LSTM model to evaluate the driving score.
