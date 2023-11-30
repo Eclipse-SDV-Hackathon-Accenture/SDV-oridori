@@ -46,7 +46,7 @@ Show off your driving skills! Our app evaluates your driving ability.
 
 - In the CARLA simulator, CAN data is collected, such as various data speeds, throttle, steering, braking, and lane keeping of the vehicle being driven. This data is sent to the kuksa.val data broker via CAN Feeder, which then forwards this CAN data to the Velocitas application via the gRPC protocol.
     
-     The Velocitas application takes this data and uses a deep learning model to calculate a driving score, which is then provided to the driver in real time. The system provides drivers with immediate feedback on their driving habits, giving them the opportunity to improve their driving behavior.
+- The Velocitas application takes this data and uses a deep learning model to calculate a driving score, which is then provided to the driver in real time. The system provides drivers with immediate feedback on their driving habits, giving them the opportunity to improve their driving behavior.
     
 
 ## 2. Leda Environment
@@ -54,7 +54,7 @@ Show off your driving skills! Our app evaluates your driving ability.
 
 - After driving in the CARLA simulator, various data of the vehicle such as speed, throttle, steering, brake, and lane keeping status are saved as a csv file during the driving process. This data is transferred from the Leda environment to the kuksa.val data broker via the CSV provider, and this data is then delivered to the Velocitas application via the gRPC protocol.
     
-     The Velocitas application takes this data and uses a deep learning model to calculate a driving score for that drive, which is then provided to the driver after completing the drive. The system provides drivers with an evaluation of their current driving, giving them the opportunity to improve their next driving.
+- The Velocitas application takes this data and uses a deep learning model to calculate a driving score for that drive, which is then provided to the driver after completing the drive. The system provides drivers with an evaluation of their current driving, giving them the opportunity to improve their next driving.
 
 
 # Expected Outcomes of the Our Project
