@@ -15,7 +15,7 @@ To obtain driving data, we used Carla, an open-source simulator. We employed two
 
 ## 2. LSTM Learning Model
 
-![lstmmodel.png](./images/lstmmodel.png)
+![lstmmodel.png](/images/lstmmodel.png)
 
 We utilized an LSTM model to calculate driving scores. We chose this model because of its strength in handling time-series data, which is crucial since our CAN data is time-dependent. For more details on the model, please refer to lstm-training.py.
 
