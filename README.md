@@ -4,11 +4,13 @@
 ## Detailed Description of the Hackathon Challenges
 
 - **Seat Adjust Challenge**
+  
     In this hack challenge, you develop your Vehicle Application using [Eclipse Velocitas](https://eclipse.dev/velocitas/). You start by setting up a **Seat Adjuster** example and then extend it with *individual ideas*. For instance, you may allow the delivery of packages to your trunk, or create individualized welcome sequences when the driver approaches the vehicle.
     
     The Seat Adjuster showcases how to create a Vehicle Application that senses and actuates signals in a vehicle through Eclipse Kuksa and the Vehicle Signal Specification (VSS). It runs on Eclipse Leda, and we use Eclipse Velocitas for the development.
     
 - **Carla**
+  
      Used the carla simulator to obtain CAN data about driving. We used the carla simulator's two methods of autonomous driving and manual driving to distinguish between data showing proper driving and data showing incorrect driving.
 
 
