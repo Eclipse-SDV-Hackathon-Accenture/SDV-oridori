@@ -32,7 +32,7 @@ Show off your driving skills! Our app evaluates your driving ability.
 
 
 # Structure
-- We generated data through CARLA and created a driving evaluation model using a deep learning model. Please check README.md in [](./dl-with-carla) for details.
+- We generated data through CARLA and created a driving evaluation model using a deep learning model. Please check README.md in [Docs Folder](./dl-with-carla) for details.
 - When driving in Carla, necessary information is sent in a CSV format locally and through a virtual CAN to the CAN Feeder in leda, conforming to the VSS standard.
 - The CSV Provider and CAN Feeder send data received from Carla to the data broker, renaming and reformatting it according to the VSS standard.
 - Applications subscribe to the data broker, continuously receiving necessary data, which is then inputted into a trained LSTM model to evaluate the driving score.
