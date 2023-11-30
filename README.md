@@ -28,7 +28,7 @@ Show off your driving skills! Our app evaluates your driving ability.
 
 # Demo
 <img width="100%" src="https://github.com/Eclipse-SDV-Hackathon-Accenture/SDV-oridori/assets/97211801/a918f52d-49d5-44c8-835d-d607408cec3d"/>
- Currently, this demo is running in real time in a LOCAL environment. On the right is the CAN DATA output and transmitted from carla, and on the bottom is the vehicle driving score calculated in the application using data received from the can feeder and databroker.
+- Currently, this demo is running in real time in a LOCAL environment. On the right is the CAN DATA output and transmitted from carla, and on the bottom is the vehicle driving score calculated in the application using data received from the can feeder and databroker.
 
 
 # Structure
