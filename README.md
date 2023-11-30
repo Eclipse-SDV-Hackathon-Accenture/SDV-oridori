@@ -1,7 +1,6 @@
 # Driving Assessment Application :blue_car:
 # **Hackathon Challenges**
-
-## Detailed Description of the Hackathon Challenges
+Detailed Description of the Hackathon Challenges
 
 - **Seat Adjust Challenge**
   
