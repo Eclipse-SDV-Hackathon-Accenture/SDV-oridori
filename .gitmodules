@@ -10,3 +10,6 @@
 	path = Velocitas-App
 	url = https://github.com/jehyngn/Velocitas-App.git
 	branch = main
+[submodule "DrivingAssessmentApp"]
+	path = DrivingAssessmentApp
+	url = https://github.com/jehyngn/Vapp.git
