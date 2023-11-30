@@ -29,7 +29,7 @@ Show off your driving skills! Our app evaluates your driving ability.
 # Demo
 - Autonomous driving
 <img width="80%" src="https://github.com/Eclipse-SDV-Hackathon-Accenture/SDV-oridori/assets/97211801/a918f52d-49d5-44c8-835d-d607408cec3d"/>
--video
+
 
 
 # Structure
